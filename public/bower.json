@@ -1,0 +1,25 @@
+{
+  "name": "public",
+  "version": "0.0.0",
+  "homepage": "nopage",
+  "moduleType": [
+    "amd"
+  ],
+  "authors": [
+    "Nikos Kitzka"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.2.0",
+    "requirejs": "~2.1.14",
+    "require-css": "~0.1.5"
+  }
+}
