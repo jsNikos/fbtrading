@@ -3,21 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>fb-trading</title>
-<script type="text/javascript" src="bower_components/requirejs/require.js"></script>
+<script type="text/javascript"
+	src="bower_components/requirejs/require.js"></script>
 <script type="text/javascript">
-require.config({
-    baseUrl: ".",
-    paths: {
-    	'jquery': 'bower_components/jquery/dist/jquery'
-    }
-  });
+	require.config({
+		baseUrl : ".",
+		paths : {
+			'jquery' : 'bower_components/jquery/dist/jquery'
+		},
+		shim : {
+			'backbone' : {
+				deps : [ 'underscore', 'jquery' ],
+				exports : 'Backbone'
+			},
+			'underscore' : {
+				exports : '_'
+			}
+		},
+		map : {
+			'*' : {
+				'css' : 'bower_components/require-css/css.js'
+			}
+		}
+	});
 </script>
 </head>
 <body>
-<script type="text/javascript">
-require(['jquery'], function(jQuery){
-	
-});
-</script>
 </body>
+<script type="text/javascript">
+	require([ 'jquery', 'js/PageController' ],
+			function(jQuery, PageController) {
+				new PageController();
+			});
+</script>
 </html>

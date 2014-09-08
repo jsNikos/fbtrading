@@ -1,0 +1,2 @@
+- underneath public, for all diferent contents, create folder containing the markup, css and js
+- at loading time, the pageController will require for it
