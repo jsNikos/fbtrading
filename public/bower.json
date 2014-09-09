@@ -21,6 +21,7 @@
     "bootstrap": "~3.2.0",
     "requirejs": "~2.1.14",
     "require-css": "~0.1.5",
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "text": "https://github.com/requirejs/text.git#~2.0.12"
   }
 }

@@ -2,14 +2,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
 <title>fb-trading</title>
+<link href="bower_components/bootstrap/dist/css/bootstrap.css"
+	rel="stylesheet" />
+
 <script type="text/javascript"
 	src="bower_components/requirejs/require.js"></script>
 <script type="text/javascript">
 	require.config({
 		baseUrl : ".",
 		paths : {
-			'jquery' : 'bower_components/jquery/dist/jquery'
+			'jquery' : 'bower_components/jquery/dist/jquery',
+			'bootstrap' : 'bower_components/bootstrap/dist/js/bootstrap.min',
+			'underscore': 'bower_components/underscore/underscore',
+			'backbone': 'bower_components/backbone/backbone'
 		},
 		shim : {
 			'backbone' : {
@@ -18,21 +29,76 @@
 			},
 			'underscore' : {
 				exports : '_'
+			},
+			'bootstrap' : {
+				deps : ['jquery']
 			}
 		},
 		map : {
 			'*' : {
-				'css' : 'bower_components/require-css/css.js'
+				'css' : 'bower_components/require-css/css.js',
+				'text': 'bower_components/text/text.js'
 			}
 		}
 	});
 </script>
 </head>
 <body>
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="">FB-Trading</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="?content=market">Market</a></li>
+					<li><a href="?content=ordering">Ordering</a></li>
+					<li><a href="?content=portfolio">My Portfolio</a></li>
+					<li><a href="?content=orderBook">Order-Book</a></li>
+					<li><a href="?content=account">Account</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li class="dropdown-header">Nav header</li>
+							<li><a href="#">Separated link</a></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Begin page content -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Trade around and be Bull</h1>
+		</div>
+		<p class="lead">
+			Ule ule ule bu bu
+		</p>		
+	</div>
+
+	<div class="footer">
+		<div class="container">
+			<p class="text-muted">here goes the live-ticker</p>
+		</div>
+	</div>
+
 </body>
 <script type="text/javascript">
-	require([ 'jquery', 'js/PageController' ],
-			function(jQuery, PageController) {
+	require(['js/PageController', 'backbone', 'bootstrap', 'jquery'],
+			function(PageController) {
 				new PageController();
 			});
 </script>
