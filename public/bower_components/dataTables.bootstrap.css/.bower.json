@@ -1,0 +1,13 @@
+{
+  "name": "dataTables.bootstrap",
+  "_cacheHeaders": {
+    "ETag": "\"2c36b4861249fd6634e993e9bc3b7ada46f9e11b\"",
+    "Content-Length": "7260",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:2c36b4861",
+  "main": "index.css",
+  "_source": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.css",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.css"
+}
