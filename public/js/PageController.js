@@ -1,4 +1,4 @@
-define(['./PageView'], function(PageView){	
+define(['./PageView', 'stacktrace'], function(PageView, stackstrace){	
 	return PageController;
 	
 	function PageController(){
@@ -12,8 +12,17 @@ define(['./PageView'], function(PageView){
 		};
 		
 		function init(){
+			jQuery.extend(true, window, {fbtrading: {handleError: handleError}});
+			Backbone.URL_PREFIX = '/fb-stocks';			
 			initPageView();
 			showContent();			
+		}
+		
+		/**
+		 * Standard error-handling.
+		 */
+		function handleError(args){
+			window.console && console.log && console.log(stacktrace.printStackTrace(args));
 		}
 		
 		function initPageView(){

@@ -49,19 +49,25 @@ app.use(function(err, req, res, next) {
 });
 
 // use for proxy to back-end
+var targetHost = 'ikromm.info';
+var targetPort = 80;
 var httpProxy = require('http-proxy');
-var proxy = httpProxy.createProxyServer();
-app.all('/webapps/*', function(req, res) {
-	proxy.web(req, res, {
-		target : 'http://hades:9090'
-	});
-});
 
-//catch 404 and forward to error handler - must be the last entry of routes!
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+var proxy = httpProxy.createProxyServer();
+proxy.on('error', function(err, req, res){
+	debugger;
+});
+proxy.on('proxyRes', function(proxyRes, req, res){
+	debugger;
+});
+app.all('/fb-stocks/**', function(req, res) {
+	console.log('herer');
+	proxy.web(req, res, {
+		target : {
+			host: targetHost,
+			port: targetPort
+		}
+	});
 });
 
 var server = app.listen(3000, function() {

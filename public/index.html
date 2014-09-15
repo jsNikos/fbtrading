@@ -20,7 +20,10 @@
 			'jquery' : 'bower_components/jquery/dist/jquery',
 			'bootstrap' : 'bower_components/bootstrap/dist/js/bootstrap.min',
 			'underscore': 'bower_components/underscore/underscore',
-			'backbone': 'bower_components/backbone/backbone'
+			'backbone': 'bower_components/backbone/backbone',
+			'EventEmitter': 'bower_components/event-emitter/index',
+			'q': 'bower_components/q/q',
+			'stacktrace': 'bower_components/stacktrace-js/stacktrace'
 		},
 		shim : {
 			'backbone' : {
@@ -86,7 +89,7 @@
 
 </body>
 <script type="text/javascript">
-	require(['js/PageController', 'backbone', 'bootstrap', 'jquery'],
+	require(['js/PageController', 'backbone', 'bootstrap', 'jquery', 'q'],
 			function(PageController) {
 				new PageController();
 			});

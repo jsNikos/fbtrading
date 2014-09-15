@@ -25,6 +25,9 @@
     "text": "https://github.com/requirejs/text.git#~2.0.12",
     "datatables": "~1.10.2",
     "dataTables.bootstrap.css": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.css",
-    "dataTables.bootstrap.js": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.js"
+    "dataTables.bootstrap.js": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.js",
+    "event-emitter": "https://raw.githubusercontent.com/jsNikos/utils/master/EventEmitter.js",
+    "q": "1.0.1",
+    "stacktrace-js": "~0.6.2"
   }
 }
