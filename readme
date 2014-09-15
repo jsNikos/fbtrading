@@ -1,0 +1,6 @@
+how to setup:
+go to root folder and type
+>  sudo npm install
+
+then go to /public and type
+> bower install
