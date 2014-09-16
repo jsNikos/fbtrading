@@ -4,3 +4,16 @@ go to root folder and type
 
 then go to /public and type
 > bower install
+
+
+copy the datatables files:
+bower_components/datatables/media folder   to  /libs/datatables
+bower_components/dataTables.bootstrap.css/index.css  to  /libs/datatables/media/css
+ and rename to dataTables.bootstrap.css
+bower_components/dataTables.bootstrap.js/index.js  to  /libs/datatables/media/js
+ and rename to dataTables.bootstrap.js
+ 
+
+Error handling:
+is done via global call to
+fbtrading.handleError

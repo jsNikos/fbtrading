@@ -1,4 +1,4 @@
-define(['./PageView', 'stacktrace'], function(PageView, stackstrace){	
+define(['./PageView', 'stacktrace', 'contents/BaseContentController'], function(PageView, stacktrace, BaseContentController){	
 	return PageController;
 	
 	function PageController(){
@@ -22,7 +22,8 @@ define(['./PageView', 'stacktrace'], function(PageView, stackstrace){
 		 * Standard error-handling.
 		 */
 		function handleError(args){
-			window.console && console.log && console.log(stacktrace.printStackTrace(args));
+			window.console && console.log && console.log(stacktrace(args));
+			console.error(args);
 		}
 		
 		function initPageView(){
@@ -44,6 +45,10 @@ define(['./PageView', 'stacktrace'], function(PageView, stackstrace){
 			}
 			require([controllerUri], function(Controller){
 				currentContentController = new Controller();
+				currentContentController.on(BaseContentController.READY, function(){
+					debugger;
+					pageView.showContent(currentContentController);
+				});
 			});
 		}
 		

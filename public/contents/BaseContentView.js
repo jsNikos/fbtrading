@@ -8,8 +8,11 @@ define(function(){
 		this.$el = undefined; // view context
 		this.controller = args.controller;
 		
-		this.show = function(){
-			throw new Error('BaseContentView.show is abstract');
+		/**
+		 * @param $content : the content to add the view's $el
+		 */
+		this.show = function($content){
+			$content.append(this.$el);
 		};
 	}	
 	

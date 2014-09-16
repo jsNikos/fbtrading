@@ -11,7 +11,7 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		var Stock = Backbone.Model.extend({
 			url : Backbone.URL_PREFIX + '/stock'
 		});
-		var Stocks = Backbone.Model.extend({
+		var Stocks = Backbone.Collection.extend({
 			model: Stock,
 			url: Backbone.URL_PREFIX + '/stocks.php'
 		});
@@ -22,13 +22,21 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		// events
 		
 		function init() {		
-			fetchStocks().then(initPageView).done();
-			
+			fetchStocks().then(initPageView)
+						 .then(scope.fire.bind(scope, BaseContentController.READY))
+						 .done();			
 		}
 		
 		function initPageView(){
-			view = new MarketContentView({controller: scope});
-			view.show();
+			var deferred = Q.defer();
+			try{
+				scope.view = new MarketContentView({controller: scope});
+				deferred.resolve();
+			}catch(e){				
+				fbtrading.handleError(e);
+				deferred.reject(e);
+			}
+			return deferred.promise;
 		}
 		
 		/**

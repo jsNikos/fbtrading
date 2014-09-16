@@ -23,7 +23,10 @@
 			'backbone': 'bower_components/backbone/backbone',
 			'EventEmitter': 'bower_components/event-emitter/index',
 			'q': 'bower_components/q/q',
-			'stacktrace': 'bower_components/stacktrace-js/stacktrace'
+			'stacktrace': 'bower_components/stacktrace-js/stacktrace',
+			'dataTableBootstrapCss': 'libs/datatables/media/css/dataTables.bootstrap',
+			'dataTableBootstrapJs' : 'libs/datatables/media/js/dataTables.bootstrap',
+			'dataTables' : 'libs/datatables/media/js/jquery.dataTables'
 		},
 		shim : {
 			'backbone' : {
@@ -35,6 +38,9 @@
 			},
 			'bootstrap' : {
 				deps : ['jquery']
+			},
+			'dataTableBootstrapJs' :{
+				deps : ['dataTables']
 			}
 		},
 		map : {
@@ -72,13 +78,14 @@
 	</div>
 
 	<!-- Begin page content -->
-	<div class="container">
+	<div class="container content">
 		<div class="page-header">
 			<h1>Trade around and be Bull</h1>
 		</div>
 		<p class="lead">
 			Ule ule ule bu bu
-		</p>		
+		</p>	
+		<!-- content is rendered here -->	
 	</div>
 
 	<div class="footer">

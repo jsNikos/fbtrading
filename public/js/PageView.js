@@ -2,8 +2,11 @@ define([ 'css!main' ], function() {
 	return PageView;
 
 	function PageView(args) {
-		var $el = jQuery('[role="navigation"]');
 		var controller = args.controller;
+		
+		// el's
+		var $el = jQuery('body');	
+		var $content = jQuery('.container.content', $el);
 
 		function init() {
 			initMenueItems();
@@ -16,6 +19,14 @@ define([ 'css!main' ], function() {
 				event.preventDefault();
 			});
 		}
+		
+		/**
+		 * Shows content based on the given content-controller.
+		 * @param baseContentController : BaseContentController 
+		 */
+		this.showContent = function(contentController){
+			contentController.show($content);			
+		};
 
 		init();
 	}
