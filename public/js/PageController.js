@@ -45,8 +45,7 @@ define(['./PageView', 'stacktrace', 'contents/BaseContentController'], function(
 			}
 			require([controllerUri], function(Controller){
 				currentContentController = new Controller();
-				currentContentController.on(BaseContentController.READY, function(){
-					debugger;
+				currentContentController.on(BaseContentController.READY, function(){					
 					pageView.showContent(currentContentController);
 				});
 			});

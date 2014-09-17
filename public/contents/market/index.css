@@ -1,3 +1,7 @@
 table.stocks{
 	width: 100%;
 }
+
+table.stocks td{
+	padding: 5px 10px;
+}
