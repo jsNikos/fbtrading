@@ -9,6 +9,7 @@ function(BaseContentView, html){
 		return new MarketContentView;
 	};
 	
+	//TODO better use to render the dataTable -api, only the effects must be programmed myself
 	function MarketContentView(){
 		var scope = this;
 		
@@ -57,6 +58,23 @@ function(BaseContentView, html){
 				$tr.append(tableHeaderCol(column));
 			});			
 			jQuery('thead', $stocksTable).append($tr);			
+		}		
+		
+		/**
+		 * Triggers to update row corresponding to given stock.
+		 */
+		this.updateRow = function(stock){			
+			var row = $findRow(stock).get(0);
+			if(row){
+				return; //not visible
+			}
+			var test = $stocksTable.DataTable().row(row).data();
+			//TODO
+			
+		};
+		
+		function $findRow(stock){		
+			return jQuery('[data-stockid="'+stock.get('id')+'"]', $stocksTable);			
 		}
 		
 		init();

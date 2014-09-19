@@ -22,9 +22,24 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		// events
 		
 		function init() {		
-			fetchStocks().then(initPageView)
-						 .then(scope.fire.bind(scope, BaseContentController.READY))
+			fetchStocks().then(initPageView)			
+						 .then(fireReady)	
+						 .then(initStockListeners)						 
 						 .done();			
+		}
+		
+		/**
+		 * Registers listeners on stock-model.
+		 */
+		function initStockListeners(){			
+			scope.stocks.on('change:current_price', function(stock){
+				scope.view.updateRow(stock);
+			});					
+			scope.stocks.at(0).set({current_price : 10}); //TODO test
+		}		
+		
+		function fireReady(){			
+			scope.fire(BaseContentController.READY);			
 		}
 		
 		function initPageView(){
