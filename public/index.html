@@ -25,7 +25,9 @@
 			'stacktrace': 'bower_components/stacktrace-js/stacktrace',
 			'dataTableBootstrapCss': 'libs/datatables/media/css/dataTables.bootstrap',
 			'dataTableBootstrapJs' : 'libs/datatables/media/js/dataTables.bootstrap',
-			'dataTables' : 'libs/datatables/media/js/jquery.dataTables'
+			'dataTables' : 'libs/datatables/media/js/jquery.dataTables',
+			'animojs': 'bower_components/animo.js/animo',
+			'animocss': 'bower_components/animo.js/animate+animo'
 		},
 		shim : {
 			'backbone' : {
@@ -40,6 +42,9 @@
 			},
 			'dataTableBootstrapJs' :{
 				deps : ['dataTables']
+			},
+			'animojs':{
+				deps:['jquery', 'css!animocss']
 			}
 		},
 		map : {

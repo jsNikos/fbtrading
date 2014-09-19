@@ -48,35 +48,17 @@ table.stocks td {
     background-color: inherit;
   }
 }
-.flash.up {
-  -webkit-animation-name: priceUpFlash;
-  -moz-animation-name: priceUpFlash;
-  -ms-animation-name: priceUpFlash;
-  -o-animation-name: priceUpFlash;
-  animation-name: priceUpFlash;
-  -webkit-animation-duration: 0.6s;
-  -moz-animation-duration: 0.6s;
-  -ms-animation-duration: 0.6s;
-  -o-animation-duration: 0.6s;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  -ms-animation-timing-function: linear;
-  -o-animation-timing-function: linear;
-  animation-timing-function: linear;
-}
-.flash.down {
+.animated.priceDownFlash {
   -webkit-animation-name: priceDownFlash;
   -moz-animation-name: priceDownFlash;
   -ms-animation-name: priceDownFlash;
   -o-animation-name: priceDownFlash;
   animation-name: priceDownFlash;
-  -webkit-animation-duration: 0.6s;
-  -moz-animation-duration: 0.6s;
-  -ms-animation-duration: 0.6s;
-  -o-animation-duration: 0.6s;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  -ms-animation-timing-function: linear;
-  -o-animation-timing-function: linear;
-  animation-timing-function: linear;
+}
+.animated.priceUpFlash {
+  -webkit-animation-name: priceUpFlash;
+  -moz-animation-name: priceUpFlash;
+  -ms-animation-name: priceUpFlash;
+  -o-animation-name: priceUpFlash;
+  animation-name: priceUpFlash;
 }

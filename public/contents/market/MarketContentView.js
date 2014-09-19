@@ -1,8 +1,9 @@
 define(['../BaseContentView',
-        'text!./index.html',
+        'text!./market.html',
         'dataTableBootstrapJs',
-        'css!./index.css',
-        'css!dataTableBootstrapCss'],
+        'css!./market.css',
+        'css!dataTableBootstrapCss',
+        'animojs'],
 function(BaseContentView, html){
 	return function(args){
 		MarketContentView.prototype = new BaseContentView(args);
@@ -35,14 +36,14 @@ function(BaseContentView, html){
 				columns: columns,
 				createdRow: onCreateRow,
 				deferRender: true,
-				columnDefs: [{targets: '_all', createCell: onCreateCell, render: onRenderCell}]
+				columnDefs: [{targets: '_all', createdCell: onCreateCell, render: onRenderCell}]
 			});		
 		}		
 		
 		/**
-		 * Can be used to format values base on column.
+		 * Can be used to format values based on column.
 		 */
-		function onRenderCell(data, type, row, meta){
+		function onRenderCell(data, type, row, meta){			
 			return data;
 		}
 		
@@ -50,8 +51,8 @@ function(BaseContentView, html){
 		 * Triggered when table creates cell (td).		 
 		 * Note: this is called only at creation time. 
 		 */
-		function onCreateCell(cell, cellData, rowData, rowIndex, colIndex){			
-			jQuery(cell).attr('data-columnname', columns[colIndex].name);				
+		function onCreateCell(cell, cellData, rowData, rowIndex, colIndex){
+			jQuery(cell).attr('data-fieldname', columns[colIndex].name);				
 		}			
 		
 		function onCreateRow(row, data, dataIndex){
@@ -62,15 +63,38 @@ function(BaseContentView, html){
 		 * Triggers to update row corresponding to given stock.
 		 */
 		this.updateRow = function(stock){		
-			var row = $findRow(stock).get(0);
-			if(!row){
+			var $row = $findRow(stock);			
+			if(!$row.size()){
 				return; //not visible
 			}
 			$stocksTable.DataTable()
-						.row(row)
-						.data(stock.toJSON())
-						.draw();		
+						.row($row.get(0))
+						.data(stock.toJSON());
+			animatePriceChange($row, stock); 
 		};
+		
+		/**
+		 * Triggers animation of price-change for given row.
+		 * @param $row 
+		 * @param stock : Stock
+		 */
+		function animatePriceChange($row, stock){
+			var $cell = $row.children('[data-fieldname="current_price"]');	
+			var animationName;
+			if(stock.get('current_price') > stock.get('previous_price')){
+				$cell.addClass('priceUp');
+				animationName = 'priceUpFlash';
+			} else if(stock.get('current_price') < stock.get('previous_price')){
+				$cell.addClass('priceDown');
+				animationName = 'priceDownFlash';
+			}
+
+			animationName && $cell.animo({				
+				animation: animationName, 
+				duration: 0.6				
+			});
+			
+		}
 		
 		function $findRow(stock){		
 			return jQuery('[data-stockid="'+stock.get('id')+'"]', $stocksTable);			

@@ -29,6 +29,7 @@
     "event-emitter": "https://raw.githubusercontent.com/jsNikos/utils/master/EventEmitter.js",
     "q": "1.0.1",
     "stacktrace-js": "~0.6.2",
-    "prefixer.less": "https://raw.githubusercontent.com/JoelSutherland/LESS-Prefixer/master/prefixer.less" 
+    "prefixer.less": "https://raw.githubusercontent.com/JoelSutherland/LESS-Prefixer/master/prefixer.less",
+    "animo.js": "*"
   }
 }

@@ -1,16 +1,2 @@
-must add flash effect from outside.
-add/remove flash class or use jquery
-here is how to to capture start/end animation event from css in js
-http://www.sitepoint.com/css3-animation-javascript-event-handlers/
-
-
-/**
-		 * Adds flash-up/down animation to cell based on price change.
-		 */
-		function onCreatePriceCell($cell, rowData){
-			if(rowData.current_price > rowData.previous_price){
-				$cell.addClass('flash up');
-			} else if(rowData.current_price < rowData.previous_price){
-				$cell.addClass('flash down');
-			}
-		}	
+- must stress test websocket on market-page
+  *create many price changes in second, different directions

@@ -36,8 +36,20 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 			scope.stocks.on('change:current_price', function(stock){
 				scope.view.updateRow(stock);
 			});	
-			debugger;
-			scope.stocks.at(2).set({current_price : -110}); //TODO test
+			
+			//TODO test
+			setTimeout(function(){
+				scope.stocks.at(2).set({current_price : 210}); 
+				
+				setTimeout(function(){
+					scope.stocks.at(2).set({current_price : -200}); 
+				}, 300);
+				setTimeout(function(){
+					scope.stocks.at(2).set({current_price : 200}); 
+				}, 200);
+			}, 1000);
+			
+			
 		}		
 		
 		function fireReady(){			
