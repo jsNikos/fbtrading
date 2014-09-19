@@ -24,7 +24,8 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		function init() {		
 			fetchStocks().then(initPageView)			
 						 .then(fireReady)	
-						 .then(initStockListeners)						 
+						 .then(initStockListeners)
+						 .fail(fbtrading.handleError)
 						 .done();			
 		}
 		
@@ -34,8 +35,9 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		function initStockListeners(){			
 			scope.stocks.on('change:current_price', function(stock){
 				scope.view.updateRow(stock);
-			});					
-			scope.stocks.at(0).set({current_price : 10}); //TODO test
+			});	
+			debugger;
+			scope.stocks.at(2).set({current_price : -110}); //TODO test
 		}		
 		
 		function fireReady(){			

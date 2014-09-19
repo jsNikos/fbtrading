@@ -1,7 +1,82 @@
-table.stocks{
-	width: 100%;
+table.stocks {
+  width: 100%;
 }
-
-table.stocks td{
-	padding: 5px 10px;
+table.stocks td {
+  padding: 5px 10px;
+}
+@-webkit-keyframes priceUpFlash {
+  0% {
+    background-color: inherit;
+  }
+  25% {
+    background-color: #008000;
+  }
+  100% {
+    background-color: inherit;
+  }
+}
+@keyframes priceUpFlash {
+  0% {
+    background-color: inherit;
+  }
+  25% {
+    background-color: #008000;
+  }
+  100% {
+    background-color: inherit;
+  }
+}
+@-webkit-keyframes priceDownFlash {
+  0% {
+    background-color: inherit;
+  }
+  25% {
+    background-color: #ff0000;
+  }
+  100% {
+    background-color: inherit;
+  }
+}
+@keyframes priceDownFlash {
+  0% {
+    background-color: inherit;
+  }
+  25% {
+    background-color: #ff0000;
+  }
+  100% {
+    background-color: inherit;
+  }
+}
+.flash.up {
+  -webkit-animation-name: priceUpFlash;
+  -moz-animation-name: priceUpFlash;
+  -ms-animation-name: priceUpFlash;
+  -o-animation-name: priceUpFlash;
+  animation-name: priceUpFlash;
+  -webkit-animation-duration: 0.6s;
+  -moz-animation-duration: 0.6s;
+  -ms-animation-duration: 0.6s;
+  -o-animation-duration: 0.6s;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  -ms-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+.flash.down {
+  -webkit-animation-name: priceDownFlash;
+  -moz-animation-name: priceDownFlash;
+  -ms-animation-name: priceDownFlash;
+  -o-animation-name: priceDownFlash;
+  animation-name: priceDownFlash;
+  -webkit-animation-duration: 0.6s;
+  -moz-animation-duration: 0.6s;
+  -ms-animation-duration: 0.6s;
+  -o-animation-duration: 0.6s;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  -ms-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
 }

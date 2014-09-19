@@ -8,26 +8,20 @@ function(BaseContentView, html){
 		MarketContentView.prototype = new BaseContentView(args);
 		return new MarketContentView;
 	};
-	
-	//TODO better use to render the dataTable -api, only the effects must be programmed myself
+		
 	function MarketContentView(){
 		var scope = this;
 		
 		// el's
-		var $stocksTable = undefined; 
-		
-		// templates
-		var tableHeaderCol = _.template('<th data-colname="<%- name %>"><%- displayName %></th>');
-		var tableRow = _.template('<tr data-stockid="<%- id %>"></tr>');
-		var tableColumn = _.template('<td data-fieldname="<%- name %>"><%- value %></td>');
-		
+		var $stocksTable = undefined;		
+				
 		var columns = 
-			[{name: 'symbol', displayName: 'Symbol'},
-			 {name: 'current_price', displayName: 'Current Price'},
-			 {name: 'start_price', displayName: 'Start Price'},
-			 {name: 'end_price', displayName: 'End Price'},
-			 {name: 'total_shares', displayName: 'Total Shares'},
-			 {name: 'available_shares', displayName: 'Available Shares'}];
+			[{data:'symbol', name:'symbol', title:'Symbol'},
+			 {data:'current_price', name:'current_price', title:'Current Price'},
+			 {data:'start_price', name:'start_price', title:'Start Price'},
+			 {data:'end_price', name:'end_price', title:'End Price'},
+			 {data:'total_shares', name:'total_shares', title:'Total Shares'},
+			 {data:'available_shares', name:'available_shares', title:'Available Shares'}];		
 		
 		function init(){
 			scope.$el = jQuery(html);
@@ -36,41 +30,46 @@ function(BaseContentView, html){
 		}		
 		
 		function initStockTable(){
-			createTableHeader();
-			createRows();	
-			$stocksTable.dataTable();
+			$stocksTable.dataTable({
+				data: scope.controller.stocks.toJSON(),				
+				columns: columns,
+				createdRow: onCreateRow,
+				deferRender: true,
+				columnDefs: [{targets: '_all', createCell: onCreateCell, render: onRenderCell}]
+			});		
+		}		
+		
+		/**
+		 * Can be used to format values base on column.
+		 */
+		function onRenderCell(data, type, row, meta){
+			return data;
 		}
 		
-		function createRows(){
-			var $tableBody = jQuery('tbody', $stocksTable);
-			scope.controller.stocks.forEach(function(stock){
-				var $row = jQuery(tableRow({id: stock.get('id')}));
-				_.each(columns, function(column){
-					$row.append(tableColumn({name: column.name, value: stock.get(column.name)}));
-				});
-				$tableBody.append($row);
-			});
-		}
+		/**
+		 * Triggered when table creates cell (td).		 
+		 * Note: this is called only at creation time. 
+		 */
+		function onCreateCell(cell, cellData, rowData, rowIndex, colIndex){			
+			jQuery(cell).attr('data-columnname', columns[colIndex].name);				
+		}			
 		
-		function createTableHeader(){
-			var $tr = jQuery('<tr></tr>');
-			_.each(columns, function(column){
-				$tr.append(tableHeaderCol(column));
-			});			
-			jQuery('thead', $stocksTable).append($tr);			
+		function onCreateRow(row, data, dataIndex){
+			jQuery(row).attr('data-stockid', data.id);
 		}		
 		
 		/**
 		 * Triggers to update row corresponding to given stock.
 		 */
-		this.updateRow = function(stock){			
+		this.updateRow = function(stock){		
 			var row = $findRow(stock).get(0);
-			if(row){
+			if(!row){
 				return; //not visible
 			}
-			var test = $stocksTable.DataTable().row(row).data();
-			//TODO
-			
+			$stocksTable.DataTable()
+						.row(row)
+						.data(stock.toJSON())
+						.draw();		
 		};
 		
 		function $findRow(stock){		
