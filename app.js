@@ -48,7 +48,7 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-// use for proxy to back-end
+// use for proxy to back-end http://transportops.com/fb-stocks/
 var targetHost = 'ikromm.info';
 var targetPort = 80;
 var httpProxy = require('http-proxy');

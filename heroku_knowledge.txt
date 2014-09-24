@@ -1,0 +1,24 @@
+git:
+> heroku login
+
+cd into project-folder
+> heroku create
+
+
+Creating pure-bastion-7939... done, stack is cedar
+http://pure-bastion-7939.herokuapp.com/ | git@heroku.com:pure-bastion-7939.git
+
+
+key-management for console
+https://devcenter.heroku.com/articles/keys
+
+
+cloning:
+heroku git:clone -a pure-bastion-7939
+
+pushing:
+git push heroku master
+
+pulling:
+git pull git@heroku.com:pure-bastion-7939.git
+
