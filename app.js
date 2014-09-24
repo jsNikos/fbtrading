@@ -48,12 +48,18 @@ app.use(function(err, req, res, next) {
 	});
 });
 
+
 // use for proxy to back-end http://transportops.com/fb-stocks/
-var targetHost = 'ikromm.info';
+var targetHost = 'pure-bastion-7939.herokuapp.com';
 var targetPort = 80;
 var httpProxy = require('http-proxy');
 
-var proxy = httpProxy.createProxyServer();
+var proxy = httpProxy.createProxyServer();  
+//var proxy = httpProxy.createServer({
+//	  target: 'ws://tiger:3000',
+//	  ws: true
+//	}).listen(4000); //TODO test
+
 proxy.on('error', function(err, req, res){
 	debugger;
 });
@@ -74,21 +80,26 @@ var server = app.listen(3000, function() {
 	console.log('Listening on port %d', server.address().port);
 });
 
+server.on('upgrade', function(req, socket, head) {
+	console.log('upgrade received');
+	proxy.ws(req, socket, head, {
+		target : 'ws://pure-bastion-7939.herokuapp.com:80',
+		xfwd: true
+		}
+	);
+}); 
+
+
+//TODO test
+var server2 = require('http').createServer().listen(4000);
 
 // TODO test websocket
 var WebSocketServer = require('websocket').server;
 wsServer = new WebSocketServer({
-    httpServer: server,    
+    httpServer: server2,    
     autoAcceptConnections: false
 });
 wsServer.on('request', function(request) {
-//    if (!originIsAllowed(request.origin)) {
-//      // Make sure we only accept requests from an allowed origin
-//      request.reject();
-//      console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
-//      return;
-//    }
-
 	console.log('connection');	
     var connection = request.accept(null, request.origin);
     console.log((new Date()) + ' Connection accepted.');
