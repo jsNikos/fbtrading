@@ -4,9 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
 
 var app = express();
 
@@ -21,7 +22,7 @@ app.use(logger('dev'));
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public'),  {compiler: {compress: false}}));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public'))); TODO
 
 //app.use('/', routes);
 //app.use('/users', users);
@@ -49,7 +50,9 @@ app.use(function(err, req, res, next) {
 });
 
 // use for proxy to back-end
-var targetHost = 'pure-bastion-7939.herokuapp.com';
+//https://fbstocks.transportops.com/dummy/stocks.php
+//pure-bastion-7939.herokuapp.com
+var targetHost = 'google.com';
 var targetPort = 80;
 var httpProxy = require('http-proxy');
 
@@ -64,7 +67,18 @@ proxy.on('error', function(err, req, res){
 });
 proxy.on('proxyRes', function(proxyRes, req, res){
 	debugger;
+	console.log(proxyRes);
 });
+
+//TODO test
+app.all('/**', function(req, res){
+	proxy.web(req, res, {target:'https://fbstocks', secure: false,
+		ssl:{			
+			key: fs.readFileSync('ryans-key.pem', 'utf8'),
+		    cert: fs.readFileSync('ryans-cert.pem', 'utf8')
+		}});
+});
+
 app.all('/fb-stocks/**', function(req, res) {
 	console.log('herer');
 	proxy.web(req, res, {

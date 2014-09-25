@@ -17,3 +17,9 @@ bower_components/dataTables.bootstrap.js/index.js  to  /libs/datatables/media/js
 Error handling:
 is done via global call to
 fbtrading.handleError
+
+have added to 
+/etc/hosts  -entry to resolve backend-host-name, otherwise proxy doesn't work
+185.4.135.236 fbstocks
+
+added certificates to enable ssl-proxy
