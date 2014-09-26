@@ -1,2 +1,5 @@
 - must stress test websocket on market-page
   *create many price changes in second, different directions
+  
+- url for company page
+  https://fbstocks.transportops.com/dummy/history.php?id=1

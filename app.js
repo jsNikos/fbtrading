@@ -4,9 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
 
 var app = express();
 
@@ -21,7 +22,7 @@ app.use(logger('dev'));
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public'),  {compiler: {compress: false}}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); 
 
 //app.use('/', routes);
 //app.use('/users', users);
@@ -49,10 +50,10 @@ app.use(function(err, req, res, next) {
 });
 
 
-// use for proxy to back-end http://transportops.com/fb-stocks/
-// pure-bastion-7939.herokuapp.com
-// https://fbstocks.transportops.com/dummy/stocks.php
-var targetHost = 'transportops.com';
+// use for proxy to back-end
+//https://fbstocks.transportops.com/dummy/stocks.php
+//pure-bastion-7939.herokuapp.com
+var targetHost = 'google.com';
 var targetPort = 80;
 var httpProxy = require('http-proxy');
 
@@ -66,57 +67,41 @@ proxy.on('error', function(err, req, res){
 	console.error(err);
 });
 proxy.on('proxyRes', function(proxyRes, req, res){
-	console.log('proxy-response: '+ proxyRes.statusCode);
+	debugger;
+	console.log(proxyRes);
 });
-app.all('/fb-stocks/**', function(req, res) {
-	console.log('herer');
-	proxy.web(req, res, {
-		target : {
-			host: targetHost,
-			port: targetPort
-		}
-	});
-});
+
+//TODO test
+//app.all('/', function(req, res){
+//	proxy.web(req, res, {target:'https://google.com', secure: false,
+//		ssl:{			
+//			key: fs.readFileSync('ryans-key.pem', 'utf8'),
+//		    cert: fs.readFileSync('ryans-cert.pem', 'utf8')
+//		}});
+//});
+
+//app.all('/fb-stocks/**', function(req, res) {
+//	console.log('herer');
+//	proxy.web(req, res, {
+//		target : {
+//			host: targetHost,
+//			port: targetPort
+//		}
+//	});
+//});
 
 var server = app.listen(3000, function() {
 	console.log('Listening on port %d', server.address().port);
 });
 
-server.on('upgrade', function(req, socket, head) {
-	console.log('upgrade received');
-	proxy.ws(req, socket, head, {
-		target : 'ws://transportops.com:9090',
-		xfwd: true
-		}
-	);
-}); 
+//server.on('upgrade', function(req, socket, head) {
+//	console.log('upgrade received');
+//	proxy.ws(req, socket, head, {
+//		target : 'ws://transportops.com:9090',
+//		xfwd: true
+//		}
+//	);
+//}); 
 
 
-//TODO test
-var server2 = require('http').createServer().listen(4000);
-
-// TODO test websocket
-var WebSocketServer = require('websocket').server;
-wsServer = new WebSocketServer({
-    httpServer: server2,    
-    autoAcceptConnections: false
-});
-wsServer.on('request', function(request) {
-	console.log('connection');	
-    var connection = request.accept(null, request.origin);
-    console.log((new Date()) + ' Connection accepted.');
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
-        }
-        else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
-        }
-    });
-    connection.on('close', function(reasonCode, description) {
-        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-    });
-});
 

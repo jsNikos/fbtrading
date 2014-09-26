@@ -13,7 +13,7 @@ define(['./PageView', 'stacktrace', 'contents/BaseContentController'], function(
 		
 		function init(){
 			jQuery.extend(true, window, {fbtrading: {handleError: handleError}});
-			Backbone.URL_PREFIX = '/fb-stocks';			
+			Backbone.URL_PREFIX = 'https://fbstocks.transportops.com/dummy';			
 			initPageView();
 			showContent();			
 		}
