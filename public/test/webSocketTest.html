@@ -6,7 +6,7 @@
 </head>
 <body>
 <script type="text/javascript">
-var webSocket = new WebSocket('ws://tiger:3000');
+var webSocket = new WebSocket('ws://transportops.com:9090');
 
 webSocket.onopen = function(event){	
 	var msg = prompt('Type a message to send') || 'hello';
@@ -18,7 +18,8 @@ webSocket.onmessage = function(event){
 };
 
 webSocket.onerror = function(event){
- alert('malaka error symbene!');
+	console.log(event);
+//  alert('malaka error symbene!');
 }
 
 </script>
