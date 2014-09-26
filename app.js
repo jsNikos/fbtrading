@@ -50,7 +50,9 @@ app.use(function(err, req, res, next) {
 
 
 // use for proxy to back-end http://transportops.com/fb-stocks/
-var targetHost = 'pure-bastion-7939.herokuapp.com';
+// pure-bastion-7939.herokuapp.com
+// https://fbstocks.transportops.com/dummy/stocks.php
+var targetHost = 'transportops.com';
 var targetPort = 80;
 var httpProxy = require('http-proxy');
 
@@ -61,10 +63,10 @@ var proxy = httpProxy.createProxyServer();
 //	}).listen(4000); //TODO test
 
 proxy.on('error', function(err, req, res){
-	debugger;
+	console.error(err);
 });
 proxy.on('proxyRes', function(proxyRes, req, res){
-	debugger;
+	console.log('proxy-response: '+ proxyRes.statusCode);
 });
 app.all('/fb-stocks/**', function(req, res) {
 	console.log('herer');
@@ -83,7 +85,7 @@ var server = app.listen(3000, function() {
 server.on('upgrade', function(req, socket, head) {
 	console.log('upgrade received');
 	proxy.ws(req, socket, head, {
-		target : 'ws://pure-bastion-7939.herokuapp.com:80',
+		target : 'ws://transportops.com:9090',
 		xfwd: true
 		}
 	);
