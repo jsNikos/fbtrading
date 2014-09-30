@@ -1,21 +1,38 @@
-define(['./PageView', 'stacktrace', 'contents/BaseContentController'], function(PageView, stacktrace, BaseContentController){	
+define(['./PageView', 'stacktrace', 'contents/BaseContentController',
+        'backbone', 'bootstrap', 'jquery', 'parseQuery', 'q'],
+function(PageView, stacktrace, BaseContentController){	
 	return PageController;
 	
 	function PageController(){
 		var scope = this;
 		var pageView = undefined;
-		var currentContentController = undefined;		
+		var currentContentController = undefined;	
+		var router = undefined;
 		
 		// new content must register controller here, type: BaseContentController
 		var contentRegister = {
-			'market' : 'contents/market/MarketContentController'
+			'market' : 'contents/market/MarketContentController',
+			'stockDetails': 'contents/stockDetails/StockDetailsContentController'
 		};
 		
 		function init(){
 			jQuery.extend(true, window, {fbtrading: {handleError: handleError}});
 			Backbone.URL_PREFIX = 'https://fbstocks.transportops.com/dummy';			
-			initPageView();
-			showContent();			
+			initPageView();		
+			initRouter();	
+		}		
+		
+		/**
+		 * Initializes the router. Path+QueryParams are extracted and
+		 * delegated to 'showContent'.
+		 */
+		function initRouter(){
+			var Router = Backbone.Router.extend({
+				  routes: {
+					    '*path': showContent,					 
+					  }});
+			router = new Router();
+			Backbone.history.start({pushState: true});
 		}
 		
 		/**
@@ -31,24 +48,35 @@ define(['./PageView', 'stacktrace', 'contents/BaseContentController'], function(
 		}
 		
 		/**
-		 * Base on the given content-name requires for the corresponding controller,
+		 * Base on the given parameters requires for the corresponding controller,
 		 * initiates and triggers page-transition on pageView.
-		 * @param name : String, if undefined default content is initialized.
+		 * @param path : url-path
+		 * @param query : query-params, the 'content' is used to extract view, the rest is given the content-controller as argument
 		 */
-		function showContent(name){
-			var controllerUri = contentRegister['market'];
-			if(name){
-				controllerUri = contentRegister[name];
-			}
+		function showContent(path, query){
+			var urlState = jQuery.parseQuery(query);
+			urlState.content = urlState.content || 'market';
+			var controllerUri = contentRegister[urlState.content];			
 			if(!controllerUri){
-				throw new Error('This content-name is not registered, '+name);
+				throw new Error('This content-name is not registered, '+urlState.content);
 			}
 			require([controllerUri], function(Controller){
-				currentContentController = new Controller();
-				currentContentController.on(BaseContentController.READY, function(){					
-					pageView.showContent(currentContentController);
-				});
+				currentContentController = new Controller(urlState);
+				currentContentController
+					.on(BaseContentController.READY, function(){	
+						//TODO transition and remove all contents afterwards
+						pageView.showContent(currentContentController);
+					 })
+					.on(BaseContentController.SYMBOL_CLICKED, handleSymbolClicked);
 			});
+		}
+		
+		/**
+		 * Handles click on symbol, triggers page navigation to stockDetails via router.
+		 */
+		function handleSymbolClicked(stock){
+			var queryParams = _.extend({content: 'stockDetails'}, stock);
+			router.navigate('stockDetails?'+jQuery.param(queryParams), {trigger: true});			
 		}
 		
 		init();		

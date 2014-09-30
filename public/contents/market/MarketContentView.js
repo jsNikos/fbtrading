@@ -10,7 +10,7 @@ function(BaseContentView, html){
 		return new MarketContentView;
 	};
 		
-	function MarketContentView(){
+	function MarketContentView(args){
 		var scope = this;
 		
 		// el's
@@ -30,6 +30,9 @@ function(BaseContentView, html){
 			initStockTable();
 		}		
 		
+		/**
+		 * Inits table with datatable and registers listeners.
+		 */
 		function initStockTable(){
 			$stocksTable.dataTable({
 				data: scope.controller.stocks.toJSON(),				
@@ -37,7 +40,11 @@ function(BaseContentView, html){
 				createdRow: onCreateRow,
 				deferRender: true,
 				columnDefs: [{targets: '_all', createdCell: onCreateCell, render: onRenderCell}]
-			});		
+			});	
+			
+			$stocksTable.on('click', '[data-fieldname="symbol"]', function(event){
+					scope.controller.handleSymbolClicked(jQuery(event.target).closest('tr').attr('data-stockid'));
+			});
 		}		
 		
 		/**

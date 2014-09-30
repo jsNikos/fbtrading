@@ -1,5 +1,10 @@
+- implement in PageView transition and removal of former contents
+
+- implement stockDetails with google-maps
+
 - must stress test websocket on market-page
   *create many price changes in second, different directions
+  * market-makers will do this
   
 - url for company page
   https://fbstocks.transportops.com/dummy/history.php?id=1

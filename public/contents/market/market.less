@@ -8,6 +8,15 @@ table.stocks td{
 	padding: 5px 10px;
 }
 
+table.stocks tbody td[data-fieldname="symbol"]{	
+	cursor: pointer;
+}
+
+table.stocks tbody td[data-fieldname="symbol"]:hover{
+	font-style: italic;
+	text-decoration: underline;
+}
+
 .keyframes(priceUpFlash, {.flashColor(inherit, @priceUpColor)});
 .keyframes(priceDownFlash, {.flashColor(inherit, @priceDownColor)});
 

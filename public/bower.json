@@ -30,6 +30,7 @@
     "q": "1.0.1",
     "stacktrace-js": "~0.6.2",
     "prefixer.less": "https://raw.githubusercontent.com/JoelSutherland/LESS-Prefixer/master/prefixer.less",
-    "animo.js": "*"
+    "animo.js": "*",
+    "parsequery": "https://raw.githubusercontent.com/rapportive-oss/jquery-parsequery/master/jquery.parsequery.js"
   }
 }

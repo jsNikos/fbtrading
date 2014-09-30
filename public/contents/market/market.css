@@ -4,6 +4,13 @@ table.stocks {
 table.stocks td {
   padding: 5px 10px;
 }
+table.stocks tbody td[data-fieldname="symbol"] {
+  cursor: pointer;
+}
+table.stocks tbody td[data-fieldname="symbol"]:hover {
+  font-style: italic;
+  text-decoration: underline;
+}
 @-webkit-keyframes priceUpFlash {
   0% {
     background-color: inherit;

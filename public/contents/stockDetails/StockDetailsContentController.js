@@ -1,11 +1,12 @@
-define([ './MarketContentView', '../BaseContentController', 'q'], function(MarketContentView, BaseContentController, Q) {
+define([ './StockDetailsContentView', '../BaseContentController', 'q'],
+function(StockDetailsContentView, BaseContentController, Q) {
 	return function(args){
-		MarketContentController.prototype = new BaseContentController(args);
-		return new MarketContentController(args);
+		StockDetailsContentController.prototype = new BaseContentController(args);
+		return new StockDetailsContentController(args);
 	};
 	// events
 
-	function MarketContentController(args) {
+	function StockDetailsContentController(args) {
 		var scope = this;
 		
 		// model-declarations
@@ -51,14 +52,16 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 			
 		}		
 		
+		//TODO move to parent
 		function fireReady(){			
 			scope.fire(BaseContentController.READY);			
 		}
 		
+		//TODO move to parent and use global View -variable
 		function initPageView(){
 			var deferred = Q.defer();
 			try{
-				scope.view = new MarketContentView({controller: scope});
+				scope.view = new StockDetailsContentView({controller: scope});
 				deferred.resolve();
 			}catch(e){				
 				fbtrading.handleError(e);
