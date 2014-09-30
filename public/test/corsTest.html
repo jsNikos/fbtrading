@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+<title>fb-trading</title>
+
+<script type="text/javascript"
+	src="../bower_components/requirejs/require.js"></script>
+<script type="text/javascript">
+	require.config({
+		baseUrl : "/",
+		paths : {
+			'jquery' : 'bower_components/jquery/dist/jquery',
+			'bootstrap' : 'bower_components/bootstrap/dist/js/bootstrap.min',
+			'underscore': 'bower_components/underscore/underscore',
+			'backbone': 'bower_components/backbone/backbone',
+			'EventEmitter': 'bower_components/event-emitter/index',
+			'q': 'bower_components/q/q',
+			'stacktrace': 'bower_components/stacktrace-js/stacktrace',
+			'dataTableBootstrapCss': 'libs/datatables/media/css/dataTables.bootstrap',
+			'dataTableBootstrapJs' : 'libs/datatables/media/js/dataTables.bootstrap',
+			'dataTables' : 'libs/datatables/media/js/jquery.dataTables',
+			'animojs': 'bower_components/animo.js/animo',
+			'animocss': 'bower_components/animo.js/animate+animo'
+		},
+		shim : {
+			'backbone' : {
+				deps : [ 'underscore', 'jquery' ],
+				exports : 'Backbone'
+			},
+			'underscore' : {
+				exports : '_'
+			},
+			'bootstrap' : {
+				deps : ['jquery']
+			},
+			'dataTableBootstrapJs' :{
+				deps : ['dataTables']
+			},
+			'animojs':{
+				deps:['jquery', 'css!animocss']
+			}
+		},
+		map : {
+			'*' : {
+				'css' : 'bower_components/require-css/css.js',
+				'text': 'bower_components/text/text.js'
+			}
+		}
+	});
+</script>
+</head>
+<body>
+	
+
+</body>
+<script type="text/javascript">
+	require(['jquery'], function(jquery){
+			jquery.ajax({
+				url: 'https://fbstocks.transportops.com/dummy/stocks.php',
+				crossDomain: true,
+				type: 'GET',
+				success: function(){
+					alert('works!');
+				},
+				error: function(err){
+					console.error(err);
+				}
+			});
+	});
+</script>
+</html>
