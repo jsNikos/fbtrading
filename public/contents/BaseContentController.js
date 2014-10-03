@@ -1,6 +1,7 @@
 define(['EventEmitter'], function(EventEmitter){
 	var Constructor = function(args){
 		BaseContentController.prototype = new EventEmitter();
+		BaseContentController.prototype.constructor = BaseContentController;
 		return new BaseContentController(args);
 	};
 	// events
@@ -21,6 +22,42 @@ define(['EventEmitter'], function(EventEmitter){
 		this.show = function($content){
 			this.view.show($content);
 		};
+		
+		/**
+		 * Signals the controller is ready with loading.
+		 */
+		this.fireReady = function(){
+			this.fire(Constructor.READY);			
+		}.bind(this);
+		
+		/**
+		 * Initializes given View-constructor with given args, this controller instance
+		 * is added by default to the args.
+		 * @param View - view-constructor
+		 * @param args - args to apply
+		 */
+		this.initPageViewTask = function(View, args){
+			var scope = this;
+			args = _.extend({controller: this}, args);
+			return function(callback){			
+				scope.view = new View(args);
+				callback();			
+			};
+		};
+		
+		/**
+		 * Creates a task for the given function, to be used in asyn-execution context.
+		 * @param func - the function to be wrapped
+		 * @param args - the args applied when called
+		 * @param context - the context in which in will run
+		 */
+		this.asTask = function(func, args, context){
+			return function(callback){			
+				func.call(context || this, args);
+				callback();
+			};
+		};
+		
 	}	
 	
 	return Constructor;

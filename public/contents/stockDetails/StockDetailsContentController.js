@@ -1,106 +1,90 @@
-define([ './StockDetailsContentView', '../BaseContentController', 'q'],
-function(StockDetailsContentView, BaseContentController, Q) {
+define([ './StockDetailsContentView', '../BaseContentController', 'coalan-async',
+         'async!http://maps.google.com/maps/api/js?sensor=false',
+         'goog!visualization,1,packages:[corechart]'],
+function(StockDetailsContentView, BaseContentController, async) {
 	return function(args){
 		StockDetailsContentController.prototype = new BaseContentController(args);
+		StockDetailsContentController.prototype.constructor = StockDetailsContentController;
 		return new StockDetailsContentController(args);
 	};
 	// events
 
+	/**
+	 * @param: args: {id: stockid}
+	 */
 	function StockDetailsContentController(args) {
 		var scope = this;
 		
 		// model-declarations
-		var Stock = Backbone.Model.extend({
-			url : Backbone.URL_PREFIX + '/stock'
+		var Price = Backbone.Model.extend({
+			date: undefined,  // timestamp
+			price: undefined  // number
 		});
-		var Stocks = Backbone.Collection.extend({
-			model: Stock,
-			url: Backbone.URL_PREFIX + '/stocks.php'
+		var Prices = Backbone.Collection.extend({
+			model: Price,
+			url: Backbone.URL_PREFIX + '/history.php'
 		});
 		
 		// model-instances
-		this.stocks = new Stocks();		
+		this.prices = new Prices();		
 		
-		function init() {		
-			fetchStocks().then(initPageView)			
-						 .then(fireReady)	
-						 .then(initStockListeners)
-						 .fail(fbtrading.handleError)
-						 .done();			
-		}
+		this.init = function() {
+			async.series([
+				fetchPricesTask(args),
+				scope.initPageViewTask(StockDetailsContentView),
+				scope.asTask(scope.fireReady),
+				scope.asTask(initPricesListeners)
+			], function(err){
+				err && fbtrading.handleError(err);
+			});					
+				
+		};		
 		
 		/**
-		 * Registers listeners on stock-model.
+		 * Registers listeners on prices-model. Triggers to update chart in case price is added to prices.
 		 */
-		function initStockListeners(){			
-			scope.stocks.on('change:current_price', function(stock){
-				scope.view.updateRow(stock);
+		function initPricesListeners(){			
+			scope.prices.on('add', function(price){
+				scope.view.updateChart(); 
 			});	
 			
 			//TODO test
-			setTimeout(function(){
-				scope.stocks.at(2).set({current_price : 210}); 
-				
-				setTimeout(function(){
-					scope.stocks.at(2).set({current_price : -200}); 
-				}, 300);
-				setTimeout(function(){
-					scope.stocks.at(2).set({current_price : 200}); 
-				}, 200);
-			}, 1000);
+//			setTimeout(function(){
+//				scope.prices.add({date: 1411526810, price: 15.2});				
+//				setTimeout(function(){
+//					scope.prices.add({date: 1411536810, price: 17.2});
+//				}, 300);
+//				setTimeout(function(){
+//					scope.prices.add({date: 1411546810, price: 20.2}); 
+//				}, 200);
+//			}, 1000);
 			
 			
 		}		
 		
-		//TODO move to parent
-		function fireReady(){			
-			scope.fire(BaseContentController.READY);			
-		}
-		
-		//TODO move to parent and use global View -variable
-		function initPageView(){
-			var deferred = Q.defer();
-			try{
-				scope.view = new StockDetailsContentView({controller: scope});
-				deferred.resolve();
-			}catch(e){				
-				fbtrading.handleError(e);
-				deferred.reject(e);
-			}
-			return deferred.promise;
-		}
-		
 		/**
-		 * Handles click on symbol-link in stock's table.
-		 * Emits event in order to be catched by page-controller which is supposed
-		 * to trigger page-transition.
-		 * @param stockid - integer
+		 * Creates task to fetch prices for stock from server with given date-range.
+		 * @param args : {id - stockid}	
 		 */
-		this.handleSymbolClicked = function(stockid){
-			scope.fire(BaseContentController.SYMBOL_CLICKED, {id: stockid});
-		};
-		
-		/**
-		 * Fetches stocks from server with given paging restrictions.
-		 * Omitting restrictions results in fetching all.
-		 * @return Q.promise
-		 */
-		function fetchStocks(page, size){
-			//TODO use given page and size ?page=1&size=100
-			var deferred = Q.defer();
-			scope.stocks.url = scope.stocks.url;
-			scope.stocks.fetch({
-			error : function(coll, err) {
-				fbtrading.handleError(err);
-				deferred.reject(new Error('Data could not be fetched!'));
-			},
-			success : function(stocks) {
-				deferred.resolve(stocks);
-			}});
-			return deferred.promise;
-		}
+		function fetchPricesTask(args){
+			//TODO apply date restrictions
+			return function(callback){
+				jQuery.ajax({
+					url: scope.prices.url+'?'+jQuery.param(args),
+					type: 'GET',
+					success: function(resp){
+						_.each(resp.history, addPrice);
+						callback();
+					},
+					error: function(err){
+						callback(err);
+					}
+				});				
+			};
 
-		init();
+			function addPrice(priceHolder){
+				scope.prices.add(priceHolder, {silent: true} );
+			}		
+		}	
 	}
-	;
 });

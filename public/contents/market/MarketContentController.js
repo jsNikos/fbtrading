@@ -1,6 +1,8 @@
-define([ './MarketContentView', '../BaseContentController', 'q'], function(MarketContentView, BaseContentController, Q) {
+define([ './MarketContentView', '../BaseContentController', 'coalan-async'],
+function(MarketContentView, BaseContentController, async) {
 	return function(args){
 		MarketContentController.prototype = new BaseContentController(args);
+		MarketContentController.prototype.constructor = MarketContentController;
 		return new MarketContentController(args);
 	};
 	// events
@@ -20,13 +22,16 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		// model-instances
 		this.stocks = new Stocks();		
 		
-		function init() {		
-			fetchStocks().then(initPageView)			
-						 .then(fireReady)	
-						 .then(initStockListeners)
-						 .fail(fbtrading.handleError)
-						 .done();			
-		}
+		this.init = function() {	
+			async.series([
+			       fetchStocksTask(),
+			       scope.initPageViewTask(MarketContentView),
+			       scope.asTask(scope.fireReady),
+			       scope.asTask(initStockListeners)
+			], function(err){
+				err && fbtrading.handleError(err);
+			});					
+		};
 		
 		/**
 		 * Registers listeners on stock-model.
@@ -51,22 +56,6 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 			
 		}		
 		
-		function fireReady(){			
-			scope.fire(BaseContentController.READY);			
-		}
-		
-		function initPageView(){
-			var deferred = Q.defer();
-			try{
-				scope.view = new MarketContentView({controller: scope});
-				deferred.resolve();
-			}catch(e){				
-				fbtrading.handleError(e);
-				deferred.reject(e);
-			}
-			return deferred.promise;
-		}
-		
 		/**
 		 * Handles click on symbol-link in stock's table.
 		 * Emits event in order to be catched by page-controller which is supposed
@@ -82,22 +71,21 @@ define([ './MarketContentView', '../BaseContentController', 'q'], function(Marke
 		 * Omitting restrictions results in fetching all.
 		 * @return Q.promise
 		 */
-		function fetchStocks(page, size){
-			//TODO use given page and size ?page=1&size=100
-			var deferred = Q.defer();
-			scope.stocks.url = scope.stocks.url;
-			scope.stocks.fetch({
-			error : function(coll, err) {
-				fbtrading.handleError(err);
-				deferred.reject(new Error('Data could not be fetched!'));
-			},
-			success : function(stocks) {
-				deferred.resolve(stocks);
-			}});
-			return deferred.promise;
+		function fetchStocksTask(page, size){
+			return function(callback){
+				//TODO use given page and size ?page=1&size=100			
+				scope.stocks.url = scope.stocks.url;
+				scope.stocks.fetch({
+					error : function(coll, err) {
+						fbtrading.handleError(err);
+						callback(err);
+					},
+					success : function(stocks) {
+						callback(null, stocks);
+					}});
+			};
 		}
-
-		init();
+	
 	}
 	;
 });

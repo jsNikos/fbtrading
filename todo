@@ -1,6 +1,9 @@
 - implement in PageView transition and removal of former contents
 
-- implement stockDetails with google-maps
+- implement stockDetails with google-maps, update with data (re-render)
+  javascript-based responsive chart
+
+- profile page (it's a form)
 
 - must stress test websocket on market-page
   *create many price changes in second, different directions

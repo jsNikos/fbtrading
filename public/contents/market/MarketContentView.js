@@ -6,7 +6,8 @@ define(['../BaseContentView',
         'animojs'],
 function(BaseContentView, html){
 	return function(args){
-		MarketContentView.prototype = new BaseContentView(args);
+		MarketContentView.prototype = new BaseContentView(_.extend({html: html}, args));
+		MarketContentView.prototype.constructor = MarketContentView;
 		return new MarketContentView;
 	};
 		
@@ -25,7 +26,6 @@ function(BaseContentView, html){
 			 {data:'available_shares', name:'available_shares', title:'Available Shares'}];		
 		
 		function init(){
-			scope.$el = jQuery(html);
 			$stocksTable = jQuery('table.stocks', scope.$el);
 			initStockTable();
 		}		

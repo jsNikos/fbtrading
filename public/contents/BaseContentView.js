@@ -3,9 +3,10 @@ define(function(){
 	
 	/**
 	 * Abstract-layer for all content-views.
+	 * @param args : {html 'html snippet which becomes $el'} 
 	 */
 	function BaseContentView(args){		
-		this.$el = undefined; // view context
+		this.$el = jQuery(args.html); // view context
 		this.controller = args.controller;
 		
 		/**

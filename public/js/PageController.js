@@ -1,6 +1,6 @@
-define(['./PageView', 'stacktrace', 'contents/BaseContentController',
-        'backbone', 'bootstrap', 'jquery', 'parseQuery', 'q'],
-function(PageView, stacktrace, BaseContentController){	
+define(['./PageView', 'contents/BaseContentController',
+        'backbone', 'bootstrap', 'jquery', 'parseQuery'],
+function(PageView, BaseContentController){	
 	return PageController;
 	
 	function PageController(){
@@ -39,8 +39,7 @@ function(PageView, stacktrace, BaseContentController){
 		 * Standard error-handling.
 		 */
 		function handleError(args){
-			window.console && console.log && console.log(stacktrace(args));
-			console.error(args);
+			window.console && console.error(args);
 		}
 		
 		function initPageView(){
@@ -63,11 +62,12 @@ function(PageView, stacktrace, BaseContentController){
 			require([controllerUri], function(Controller){
 				currentContentController = new Controller(urlState);
 				currentContentController
-					.on(BaseContentController.READY, function(){	
+				    .on(BaseContentController.READY, function(){	
 						//TODO transition and remove all contents afterwards
 						pageView.showContent(currentContentController);
 					 })
-					.on(BaseContentController.SYMBOL_CLICKED, handleSymbolClicked);
+					.on(BaseContentController.SYMBOL_CLICKED, handleSymbolClicked)
+					.init();
 			});
 		}
 		
@@ -76,7 +76,7 @@ function(PageView, stacktrace, BaseContentController){
 		 */
 		function handleSymbolClicked(stock){
 			var queryParams = _.extend({content: 'stockDetails'}, stock);
-			router.navigate('stockDetails?'+jQuery.param(queryParams), {trigger: true});			
+			router.navigate('index.html?'+jQuery.param(queryParams), {trigger: true});			
 		}
 		
 		init();		

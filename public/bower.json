@@ -27,10 +27,10 @@
     "dataTables.bootstrap.css": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.css",
     "dataTables.bootstrap.js": "https://raw.githubusercontent.com/DataTables/Plugins/master/integration/bootstrap/3/dataTables.bootstrap.js",
     "event-emitter": "https://raw.githubusercontent.com/jsNikos/utils/master/EventEmitter.js",
-    "q": "1.0.1",
-    "stacktrace-js": "~0.6.2",
     "prefixer.less": "https://raw.githubusercontent.com/JoelSutherland/LESS-Prefixer/master/prefixer.less",
     "animo.js": "*",
-    "parsequery": "https://raw.githubusercontent.com/rapportive-oss/jquery-parsequery/master/jquery.parsequery.js"
+    "parsequery": "https://raw.githubusercontent.com/rapportive-oss/jquery-parsequery/master/jquery.parsequery.js",
+    "requirejs-plugins": "~1.0.2",
+    "async": "https://raw.githubusercontent.com/caolan/async/master/lib/async.js"
   }
 }
