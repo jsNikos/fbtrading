@@ -59,7 +59,7 @@ function(PageView, BaseContentController){
 			if(!controllerUri){
 				throw new Error('This content-name is not registered, '+urlState.content);
 			}
-			require([controllerUri], function(Controller){
+			require([controllerUri], function(Controller){				
 				currentContentController = new Controller(urlState);
 				currentContentController
 				    .on(BaseContentController.READY, function(){	

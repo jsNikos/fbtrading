@@ -1,5 +1,4 @@
 node_modules/**
 /.project
 /bin
-/public/bower_components/**
-/bin
+public/bower_components/**
