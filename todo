@@ -1,8 +1,5 @@
 - implement in PageView transition and removal of former contents
 
-- implement stockDetails with google-maps, update with data (re-render)
-  javascript-based responsive chart
-
 - profile page (it's a form)
 
 - in pageController make the transition url indepependent of index and extract from navigation.host

@@ -10,6 +10,11 @@ function(BaseContentView, html){
 		
 	function StockDetailsContentView(args){
 		var scope = this;
+		var chart = undefined; // google.visualization.LineChart
+		var chartOptions = {
+			      legend:'none',
+			      width: 720
+			    };
 		
 		// el's
 		var $stockChart = undefined;		
@@ -24,26 +29,26 @@ function(BaseContentView, html){
 		 * Triggers to re-render the chart with current controller.prices
 		 */
 		this.updateChart = function(){
-			var test = scope.controller.prices.toJSON();
-			debugger; //TODO
+			chart.draw(createDataTable(scope.controller.prices), chartOptions);
 		};
 		
-		function initStockChart(){
-			//TODO
-			 var data = google.visualization.arrayToDataTable([
-			                                                    ['Year', 'Sales'],
-			                                                    ['2004',  1000],
-			                                                    ['2005',  1170],
-			                                                    ['2006',  660],
-			                                                    ['2007',  1030]
-			                                                  ]);
-
-			    var options = {
-			      legend:'none'
-			    };
-			    var chart = new google.visualization.LineChart($stockChart.get(0));
-			    chart.draw(data, options);
-			    //TODO
+		
+		/**
+		 * Transforms given data in google DataTable.
+		 * @param prices : Prices
+		 * @return google.visualization.DataTable
+		 */
+		function createDataTable(prices){
+			var arr = [['Date', 'Price']];
+			prices.each(function(price){
+				return arr.push([new Date(price.get('date')), price.get('price')]);
+			});
+			return google.visualization.arrayToDataTable(arr);			
+		}
+		
+		function initStockChart(){			 
+			 chart = new google.visualization.LineChart($stockChart.get(0));
+			 chart.draw(createDataTable(scope.controller.prices), chartOptions);
 		}		
 		
 		init();

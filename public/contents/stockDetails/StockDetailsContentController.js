@@ -26,7 +26,7 @@ function(StockDetailsContentView, BaseContentController, async) {
 		});
 		
 		// model-instances
-		this.prices = new Prices();		
+		this.prices = new Prices([], {comparator: 'date'});		
 		
 		this.init = function() {
 			async.series([
@@ -49,15 +49,15 @@ function(StockDetailsContentView, BaseContentController, async) {
 			});	
 			
 			//TODO test
-//			setTimeout(function(){
-//				scope.prices.add({date: 1411526810, price: 15.2});				
-//				setTimeout(function(){
-//					scope.prices.add({date: 1411536810, price: 17.2});
-//				}, 300);
-//				setTimeout(function(){
-//					scope.prices.add({date: 1411546810, price: 20.2}); 
-//				}, 200);
-//			}, 1000);
+			setTimeout(function(){
+				scope.prices.add({date: 1411526810, price: 15.2});				
+				setTimeout(function(){
+					scope.prices.add({date: 1411536810, price: 17.2});
+				}, 300);
+				setTimeout(function(){
+					scope.prices.add({date: 1411546810, price: 20.2}); 
+				}, 200);
+			}, 1000);
 			
 			
 		}		
@@ -83,7 +83,7 @@ function(StockDetailsContentView, BaseContentController, async) {
 			};
 
 			function addPrice(priceHolder){
-				scope.prices.add(priceHolder, {silent: true} );
+				scope.prices.add(priceHolder, {silent: true} );				
 			}		
 		}	
 	}
