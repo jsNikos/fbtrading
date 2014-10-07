@@ -1,6 +1,6 @@
-define(['./PageView', 'contents/BaseContentController',
+define(['./PageView', 'contents/BaseContentController', 'coalan-async',
         'backbone', 'bootstrap', 'jquery', 'parseQuery'],
-function(PageView, BaseContentController){	
+function(PageView, BaseContentController, async){	
 	return PageController;
 	
 	function PageController(){
@@ -8,6 +8,7 @@ function(PageView, BaseContentController){
 		var pageView = undefined;
 		var currentContentController = undefined;	
 		var router = undefined;
+		var pageRootPath = undefined; // is set to page's root path (form where it is served)
 		
 		// new content must register controller here, type: BaseContentController
 		var contentRegister = {
@@ -29,7 +30,7 @@ function(PageView, BaseContentController){
 		function initRouter(){
 			var Router = Backbone.Router.extend({
 				  routes: {
-					    '*path': showContent,					 
+					    '*path': showContent,				// matches all path and splits query-part	 
 					  }});
 			router = new Router();
 			Backbone.history.start({pushState: true});
@@ -53,18 +54,20 @@ function(PageView, BaseContentController){
 		 * @param query : query-params, the 'content' is used to extract view, the rest is given the content-controller as argument
 		 */
 		function showContent(path, query){
+			pageRootPath = pageRootPath || path; // first time-set
 			var urlState = jQuery.parseQuery(query);
 			urlState.content = urlState.content || 'market';
 			var controllerUri = contentRegister[urlState.content];			
 			if(!controllerUri){
 				throw new Error('This content-name is not registered, '+urlState.content);
 			}
-			require([controllerUri], function(Controller){				
+			require([controllerUri], function(Controller){		
+				var formerContentController = currentContentController;
 				currentContentController = new Controller(urlState);
 				currentContentController
-				    .on(BaseContentController.READY, function(){	
-						//TODO transition and remove all contents afterwards
-						pageView.showContent(currentContentController);
+				    .on(BaseContentController.READY, function(){
+				    	async.series([pageView.createHideContentTask(formerContentController),
+				    	              pageView.createShowContentTask(currentContentController)]);					
 					 })
 					.on(BaseContentController.SYMBOL_CLICKED, handleSymbolClicked)
 					.init();
@@ -76,7 +79,7 @@ function(PageView, BaseContentController){
 		 */
 		function handleSymbolClicked(stock){
 			var queryParams = _.extend({content: 'stockDetails'}, stock);
-			router.navigate('index.html?'+jQuery.param(queryParams), {trigger: true});			
+			router.navigate(pageRootPath+'?'+jQuery.param(queryParams), {trigger: true});			
 		}
 		
 		init();		

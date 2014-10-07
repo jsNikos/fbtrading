@@ -31,6 +31,7 @@
     "animo.js": "*",
     "parsequery": "https://raw.githubusercontent.com/rapportive-oss/jquery-parsequery/master/jquery.parsequery.js",
     "requirejs-plugins": "~1.0.2",
-    "async": "https://raw.githubusercontent.com/caolan/async/master/lib/async.js"
+    "async": "https://raw.githubusercontent.com/caolan/async/master/lib/async.js",
+    "animate.css": "~3.2.0"
   }
 }

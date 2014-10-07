@@ -1,8 +1,4 @@
-- implement in PageView transition and removal of former contents
-
 - profile page (it's a form)
-
-- in pageController make the transition url indepependent of index and extract from navigation.host
 
 - must stress test websocket on market-page
   *create many price changes in second, different directions
