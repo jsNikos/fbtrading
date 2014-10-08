@@ -13,7 +13,8 @@ function(PageView, BaseContentController, async){
 		// new content must register controller here, type: BaseContentController
 		var contentRegister = {
 			'market' : 'contents/market/MarketContentController',
-			'stockDetails': 'contents/stockDetails/StockDetailsContentController'
+			'stockDetails': 'contents/stockDetails/StockDetailsContentController',
+			'profile' : 'contents/profile/ProfileContentController'
 		};
 		
 		function init(){
@@ -81,6 +82,14 @@ function(PageView, BaseContentController, async){
 			var queryParams = _.extend({content: 'stockDetails'}, stock);
 			router.navigate(pageRootPath+'?'+jQuery.param(queryParams), {trigger: true});			
 		}
+		
+		/**
+		 * Triggers to switch page-content.
+		 * @param item : the content-name as registered in 'contentRegister'.
+		 */
+		this.handleMenuItemClicked = function(item){		
+			router.navigate(pageRootPath+'?'+jQuery.param({content:item}), {trigger: true});
+		};
 		
 		init();		
 	}

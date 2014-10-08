@@ -1,4 +1,4 @@
-define([ 'css!main', 'css!animate' ], function() {
+define([ 'css!main', 'css!animate', 'animojs'], function() {
 	return PageView;
 
 	function PageView(args) {
@@ -15,7 +15,9 @@ define([ 'css!main', 'css!animate' ], function() {
 		function initMenueItems() {
 			$el.on('click', '.navbar-collapse a', function(event) {
 				jQuery('li.active', $el).removeClass('active');
-				jQuery(event.target).closest('li').addClass('active');
+				var $target = jQuery(event.target);
+				$target.closest('li').addClass('active');
+				controller.handleMenuItemClicked($target.attr('href').match(/.*=(.*)/)[1]);				
 				event.preventDefault();
 			});
 		}

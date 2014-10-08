@@ -62,6 +62,9 @@ function(BaseContentView, html){
 			jQuery(cell).attr('data-fieldname', columns[colIndex].name);				
 		}			
 		
+		/**
+		 * Invoked whenever row is created.
+		 */
 		function onCreateRow(row, data, dataIndex){
 			jQuery(row).attr('data-stockid', data.id);
 		}		

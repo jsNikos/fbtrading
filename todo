@@ -1,4 +1,8 @@
-- profile page (it's a form)
+- profile page (it's a form) 
+	* pages table needs to have max width
+	* on restrict on pages which are not registered
+	* registered page display in form of bootstrap thumbnails together with some performance
+		info below of that
 
 - must stress test websocket on market-page
   *create many price changes in second, different directions
@@ -6,3 +10,5 @@
   
 - url for company page
   https://fbstocks.transportops.com/dummy/history.php?id=1
+  
+  - need a loader (show with :after on content -pageView and make with opacity 0.5 overflow with :before)
