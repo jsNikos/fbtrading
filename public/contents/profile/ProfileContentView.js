@@ -1,9 +1,10 @@
 define(['../BaseContentView',
         'text!./profile.html',
+        'text!./registered-page.html',
         'dataTableBootstrapJs',
         'css!./profile.css',
         'css!dataTableBootstrapCss'],
-function(BaseContentView, html){
+function(BaseContentView, html, registeredPageHtml){
 	return function(args){
 		ProfileContentView.prototype = new BaseContentView(_.extend({html: html}, args));
 		ProfileContentView.prototype.constructor = ProfileContentView;
@@ -14,10 +15,11 @@ function(BaseContentView, html){
 		var scope = this;
 		
 		// el's		
-		var $pagesTable = undefined;  	
+		var $pagesTable = undefined;
 		
 		// templates
-		var pageImgTmpl = _.template('<img src="<%- url %>" />');
+		var pageImgTmpl = _.template('<img class="page-picture" src="<%- url %>" />');
+		var registeredPageTmpl = _.template(registeredPageHtml);
 		
 		var columns = 
 			[{data:'picture', name:'picture', title:''},
@@ -26,11 +28,13 @@ function(BaseContentView, html){
 		
 		function init(){
 			$pagesTable = jQuery('table.pages', scope.$el);
-			initPagesTable();
+			initRegisteredPages();
+			initPagesTable();			
 		}		
 		
 		/**
 		 * Shows those pages available for registration.
+		 * TODO restrict to not-registered
 		 */
 		function initPagesTable(){
 			$pagesTable.dataTable({
@@ -38,10 +42,23 @@ function(BaseContentView, html){
 				columns: columns,
 				createdRow: onCreateRow,
 				deferRender: true,
-				columnDefs: [{targets: '_all', createdCell: onCreateCell, render: onRenderCell}]
+				autoWidth: false,
+				columnDefs: [{targets: '_all', createdCell: onCreateCell, render: onRenderCell},
+				             {targets: 0, orderable: false}]
 			});	
 			//TODO listeners
 		}		
+		
+		/**
+		 * Renders registered-pages onto view.
+		 * TODO restrict to registered pages
+		 */
+		function initRegisteredPages(){
+			var $registeredPages = jQuery('.registered-pages', scope.$el);
+			scope.controller.pages.each(function(page){
+				$registeredPages.append(registeredPageTmpl(page.toJSON()));
+			});
+		}
 		
 		/**
 		 * Invoked whenever row is created.

@@ -1,13 +1,22 @@
-table.stocks {
+.absolute-stretch {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+}
+.market table.stocks {
   width: 100%;
 }
-table.stocks td {
+.market table.stocks td {
   padding: 5px 10px;
 }
-table.stocks tbody td[data-fieldname="symbol"] {
+.market table.stocks tbody td[data-fieldname="symbol"] {
   cursor: pointer;
 }
-table.stocks tbody td[data-fieldname="symbol"]:hover {
+.market table.stocks tbody td[data-fieldname="symbol"]:hover {
   font-style: italic;
   text-decoration: underline;
 }
@@ -55,14 +64,14 @@ table.stocks tbody td[data-fieldname="symbol"]:hover {
     background-color: inherit;
   }
 }
-.animated.priceDownFlash {
+.market .animated.priceDownFlash {
   -webkit-animation-name: priceDownFlash;
   -moz-animation-name: priceDownFlash;
   -ms-animation-name: priceDownFlash;
   -o-animation-name: priceDownFlash;
   animation-name: priceDownFlash;
 }
-.animated.priceUpFlash {
+.market .animated.priceUpFlash {
   -webkit-animation-name: priceUpFlash;
   -moz-animation-name: priceUpFlash;
   -ms-animation-name: priceUpFlash;

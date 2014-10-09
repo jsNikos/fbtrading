@@ -1,18 +1,18 @@
 @import '../../global.less';
 
-table.stocks{
+.market table.stocks{
 	width: 100%;
 }
 
-table.stocks td{
+.market table.stocks td{
 	padding: 5px 10px;
 }
 
-table.stocks tbody td[data-fieldname="symbol"]{	
+.market table.stocks tbody td[data-fieldname="symbol"]{	
 	cursor: pointer;
 }
 
-table.stocks tbody td[data-fieldname="symbol"]:hover{
+.market table.stocks tbody td[data-fieldname="symbol"]:hover{
 	font-style: italic;
 	text-decoration: underline;
 }
@@ -20,10 +20,10 @@ table.stocks tbody td[data-fieldname="symbol"]:hover{
 .keyframes(priceUpFlash, {.flashColor(inherit, @priceUpColor)});
 .keyframes(priceDownFlash, {.flashColor(inherit, @priceDownColor)});
 
-.animated.priceDownFlash {
+.market .animated.priceDownFlash {
 	.animation-name(priceDownFlash);
 }
 
-.animated.priceUpFlash {
+.market .animated.priceUpFlash {
 	.animation-name(priceUpFlash);
 }

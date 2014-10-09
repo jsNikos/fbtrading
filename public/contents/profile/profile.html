@@ -1,9 +1,11 @@
-<div data-role="ProfileContentView">
+<div class="profile" data-role="ProfileContentView">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<input type="text" class="form-control" placeholder="Username" />
 
-			<table class="pages table-striped table-bordered">
+			<div class="registered-pages"><!-- registered pages are rendered here --> </div>
+
+			<table class="pages table-striped table-bordered table table-hover">
 				<thead>
 					<tr>
 						<!-- header columns get rendered here -->
@@ -12,8 +14,8 @@
 				<tbody>
 					<!-- rows are rendered here -->
 				</tbody>
-			</table>
-
+			</table> 
+	
 		</div>
 	</div>
 </div>
